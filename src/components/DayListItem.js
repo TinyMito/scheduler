@@ -1,4 +1,3 @@
-import React from "react";
 
 export default function DayListItem(props) {
   return (
@@ -8,4 +7,3 @@ export default function DayListItem(props) {
     </li>
   );
 }
-
