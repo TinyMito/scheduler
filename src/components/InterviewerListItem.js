@@ -7,12 +7,6 @@ export default function InterviewerListItem(props) {
     'interviewers__item--selected': props.selected
   });
 
-  const showName = () => {
-    if (props.selected) {
-      return props.name;
-    }
-  }
-
   return (
     <li className={interviewerClass} onClick={() => props.setInterviewer(props.id)}>
       <img
@@ -20,7 +14,7 @@ export default function InterviewerListItem(props) {
         src={props.avatar}
         alt={props.name}
       />
-      {showName()}
+      {props.selected ? props.name : null}
     </li>
   )
 }
