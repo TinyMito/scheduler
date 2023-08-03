@@ -171,6 +171,7 @@ storiesOf("Appointment", module)
       interviewers={interviewers}
       onCancel={action("onCancel")}
       onSave={action("onSave")}
+      message="Enter Student Name"
     />
   ))
   .add("Edit", () => (
@@ -180,5 +181,6 @@ storiesOf("Appointment", module)
       interviewers={interviewers}
       onCancel={action("onCancel")}
       onSave={action("onSave")}
+      message="Enter Student Name"
     />
   ))
