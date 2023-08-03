@@ -32,6 +32,7 @@ export default function Form(props) {
         <InterviewerList 
           interviewers={props.interviewers}
           value={interviewer}
+          onChange={setInterviewer}
         />
       </section>
       <section className="appointment__card-right">
@@ -43,23 +44,3 @@ export default function Form(props) {
     </main>
   )
 }
-
-/* 
-The <Form> component should track the following state:
-
-    student:String
-    interviewer:Number
-
-The <Form> component should have the following actions:
-
-    setStudent:Function
-    setInterviewer:Function
-
-The <Form> component should take the following props:
-
-    student:String
-    interviewers:Array
-    interviewer:Number
-    onSave:Function
-    onCancel:Function
- */
