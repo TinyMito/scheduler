@@ -12,6 +12,5 @@ export default function getAppointmentsForDay(state, day) {
     return state.appointments[appointmentId];
   });
   
-  //console.log(listAppointments);
   return listAppointments;
 }
