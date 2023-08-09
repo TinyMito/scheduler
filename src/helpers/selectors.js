@@ -1,4 +1,4 @@
-export default function getAppointmentsForDay(state, day) {
+export function getAppointmentsForDay(state, day) {
   // Find the object with selected day.
   const chosenDay = state.days.find(item => item.name === day);
 
@@ -13,4 +13,27 @@ export default function getAppointmentsForDay(state, day) {
   });
   
   return listAppointments;
+}
+
+export function getInterview(state, interview) {
+
+  // Return null if there is no interview 
+  if (!interview) {
+    return null;
+  }
+
+  // Select the appointment interviewer id to interviewers object
+  const interviewer = state.interviewers[interview.interviewer];
+
+  // Construct object
+  const data = {
+    student: interview.student,
+    interviewer: {
+      id: interviewer.id,
+      name: interviewer.name,
+      avatar: interviewer.avatar,
+    },
+  };
+
+  return data;
 }
