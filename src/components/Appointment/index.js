@@ -9,6 +9,7 @@ import Show from "./Show";
 import Status from "./Status";
 import useVisualMode from "hooks/useVisualMode";
 
+// APPOINTMENT MODULE
 export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
@@ -16,6 +17,7 @@ export default function Appointment(props) {
   const SAVING = "SAVING";
   const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
+  const EDIT = "EDIT";
   const ERROR = "ERROR";
 
 
@@ -47,6 +49,11 @@ export default function Appointment(props) {
       .then(() => transition(EMPTY))
       .catch(() => transition(ERROR))
   }
+
+  function edit() {
+    transition(EDIT);
+
+  }
   
   return (
     <article className="appointment">
@@ -56,7 +63,7 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          onEdit={() => console.log("Clicked onEdit")}
+          onEdit={edit}
           onDelete={cancel}
         />
       )}
@@ -87,6 +94,17 @@ export default function Appointment(props) {
           message="Delete the appointment?"
           onCancel={back}
           onConfirm={confirm}
+        />
+      )}
+
+      {mode === EDIT && (
+        <Form
+          student={props.interview.student}
+          interviewer={props.interview.interviewer.id}
+          interviewers={props.interviewers}
+          onCancel={back}
+          onSave={save}
+          message="Enter Student Name"
         />
       )}
 
