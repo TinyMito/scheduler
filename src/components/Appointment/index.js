@@ -36,13 +36,17 @@ export default function Appointment(props) {
       .catch(() => transition(ERROR))
   };
 
-  function cancel(name, interviewer) {
+  function cancel() {
+    transition(CONFIRM);
+  };
+
+  function confirm() {
     transition(DELETING);
 
     props.cancelInterview(props.id)
       .then(() => transition(EMPTY))
       .catch(() => transition(ERROR))
-  };
+  }
   
   return (
     <article className="appointment">
@@ -82,7 +86,7 @@ export default function Appointment(props) {
         <Confirm
           message="Delete the appointment?"
           onCancel={back}
-          onConfirm={cancel}
+          onConfirm={confirm}
         />
       )}
 
