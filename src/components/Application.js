@@ -34,8 +34,6 @@ export default function Application(props) {
   const dailyInterviewers = getInterviewersForDay(state, state.day); // Get the interviews for the day
 
   function bookInterview(id, interview) {
-    console.log(id, interview);
-
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -46,7 +44,32 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    setState({...state, appointments});
+    // PUT interview database
+    return axios.put(`/api/appointments/${id}`, { interview })
+      .then(() => {
+        // If success, set state with new data
+        setState({...state, appointments})
+      })
+
+  }
+
+  function cancelInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null // clear the interview object
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    // DELETE interview database
+    return axios.delete(`/api/appointments/${id}`)
+      .then(() => {
+        // If success, set state with new data
+        setState({...state, appointments})
+      })
   }
 
   return (
@@ -83,6 +106,7 @@ export default function Application(props) {
               interview={interview}
               interviewers={dailyInterviewers}
               bookInterview={bookInterview}
+              cancelInterview={cancelInterview}
             />
           )
           })}
