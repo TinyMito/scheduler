@@ -74,7 +74,7 @@ export default function Application(props) {
             />
           )
           })}
-        <Appointment time="5pm" />
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );
