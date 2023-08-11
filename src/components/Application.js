@@ -3,13 +3,15 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors";
 
 export default function Application(props) {
+  // Store all the api data state
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
 
   useEffect(() => {
@@ -17,6 +19,7 @@ export default function Application(props) {
     const getAppointments = `http://localhost:8001/api/appointments`;
     const getInterviewers = `http://localhost:8001/api/interviewers`;
 
+    // Promise all fetch API data, setState once all data are valid.
     Promise.all([
       axios.get(getDays),
       axios.get(getAppointments),
@@ -26,8 +29,13 @@ export default function Application(props) {
     });
   }, []);
 
-  const setDay = day => setState({ ...state, day });
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const setDay = day => setState({ ...state, day }); // Set the day object from onChange in DayList
+  const dailyAppointments = getAppointmentsForDay(state, state.day); // Get the appointments for the day
+  const dailyInterviewers = getInterviewersForDay(state, state.day); // Get the interviews for the day
+
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
 
   return (
     <main className="layout">
@@ -61,6 +69,8 @@ export default function Application(props) {
               id={appointment.id}
               time={appointment.time}
               interview={interview}
+              interviewers={dailyInterviewers}
+              bookInterview={bookInterview}
             />
           )
           })}
