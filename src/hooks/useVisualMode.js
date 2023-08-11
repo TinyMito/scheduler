@@ -5,15 +5,33 @@ export default function useVisualMode(initial) {
   const [history, setHistory] = useState([initial]);
 
   // function to transition to next mode
-  function transition(selectMode) {
-    setMode(selectMode);
+  function transition(selectMode, replace = false) {
+    if (!replace) {
+      setMode(selectMode); // Set the mode
+      history.push(selectMode); // push new mode into the history array
+    } else {
+      if (history.length > 1) {
+        history.pop(); // Remove last mode
+        history.push(selectMode) // push the new mode
+        setMode(history[history.length - 1]); // setMode to the last array value
+      }
+    }
+    
+    setHistory(history); // Update the history array
   }
 
   // function to return previous mode
   function back() {
-    setMode();
+    // prevent history falling out of bound
+    if (history.length > 1) {
+      history.pop(); // remove last array in history
+      setMode(history[history.length - 1]); // setMode to the last array value
+    }
+
+    setHistory(history); // Update the history array
   }
 
+  console.log("Mode =>", mode, history);
   // return mode and functions
   return { mode, transition, back };
 }
