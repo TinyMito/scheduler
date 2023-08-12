@@ -85,7 +85,7 @@ export default function Appointment(props) {
 
       {mode === DELETING && (
         <Status
-          message="Deteting..."
+          message="Deleting..."
         />
       )}
 
