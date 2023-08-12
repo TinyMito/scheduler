@@ -130,7 +130,92 @@ describe("Application", () => {
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument();  
   });
 
-  it("shows the save error when failing to save an appointment", () => {
+  it("shows the save error when failing to save an appointment", async () => {
     axios.put.mockRejectedValueOnce();
+
+    // 1. Render the Application.
+    const { container } = render(<Application />);
+  
+    // 2. Wait until the text "Archie Cohen" is displayed.
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+  
+    // Setup Target Test ID
+    const appointments = getAllByTestId(container, "appointment");
+    const appointment = appointments[0];
+
+    // 3. Click the "Add" button on the first empty appointment.
+    fireEvent.click(getByAltText(appointment, "Add"));
+  
+    // 4. Enter the name "Lydia Miller-Jones" into the input with the placeholder "Enter Student Name".
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Lydia Miller-Jones" }
+    });
+
+    // 5. Click the first interviewer in the list.
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+  
+    // 6. Click the "Save" button on that same appointment.
+    fireEvent.click(getByText(appointment, "Save"));
+
+    // 7. Check that the element with the text "Saving" is displayed.
+    expect(getByText(appointment, "Saving...")).toBeInTheDocument();
+
+    // 8. Check for error
+    await waitForElement(() => getByText(appointment, "Error"));
+
+    // 9. Close error 
+    fireEvent.click(getByAltText(appointment, "Close"));
+
+    // 10. Show the original interview
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    // 11. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday")
+    );
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+  });
+
+  it("shows the delete error when failing to delete an existing appointment", async () => {
+    axios.delete.mockRejectedValueOnce();
+
+    // 1. Render the Application.
+    const { container } = render(<Application />);
+  
+    // 2. Wait until the text "Archie Cohen" is displayed.
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    // 3. Click the "Delete" button on the booked appointment.
+    const appointment = getAllByTestId(container, "appointment").find(
+      appointment => queryByText(appointment, "Archie Cohen")
+    );
+  
+    fireEvent.click(queryByAltText(appointment, "Delete"));
+
+    // 4. Check that the confirmation message is shown.
+    await waitForElement(() =>
+      queryByText(appointment, "Delete the appointment?")
+    );
+
+    // 5. Click the "Confirm" button on the confirmation.
+    fireEvent.click(getByText(appointment, "Confirm"));
+
+    // 6. Check that the element with the text "Deleting" is displayed.
+    expect(getByText(appointment, "Deleting...")).toBeInTheDocument();
+
+    // 7. Check for error
+    await waitForElement(() => getByText(appointment, "Error"));
+
+    // 8. Close error 
+    fireEvent.click(getByAltText(appointment, "Close"));
+
+    // 9. Show the original interview
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    // 10. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday")
+    );
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
   });
 });
