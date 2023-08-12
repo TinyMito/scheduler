@@ -11,9 +11,9 @@ export default function useApplicationData() {
   });
 
   useEffect(() => {
-    const getDays = `http://localhost:8001/api/days`;
-    const getAppointments = `http://localhost:8001/api/appointments`;
-    const getInterviewers = `http://localhost:8001/api/interviewers`;
+    const getDays = `/api/days`;
+    const getAppointments = `/api/appointments`;
+    const getInterviewers = `/api/interviewers`;
 
     // Promise all fetch API data, setState once all data are valid.
     Promise.all([
