@@ -21,9 +21,13 @@ export default function Appointment(props) {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
 
+  // Show if props.interview is true (has data)
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+
+  // To prevent edit mode to update the spot total left on the day list by only setting value to true if this is a new interview
+  const newInterview = mode === CREATE ? true : false;
 
   function save(name, interviewer) {
     const interview = {
@@ -33,7 +37,7 @@ export default function Appointment(props) {
 
     transition(SAVING);
 
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.id, interview, newInterview)
       .then(() => transition(SHOW))
       .catch(error => transition(ERROR_SAVE, true))
   };
@@ -52,7 +56,6 @@ export default function Appointment(props) {
 
   function edit() {
     transition(EDIT);
-
   }
   
   return (

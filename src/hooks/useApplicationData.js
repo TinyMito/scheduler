@@ -27,7 +27,7 @@ export default function useApplicationData() {
 
   const setDay = day => setState({ ...state, day }); // Set the day object from onChange in DayList
 
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview, newInterview) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -43,9 +43,10 @@ export default function useApplicationData() {
       .then(() => {
         // If success, set state with new data
         setState({...state, appointments});
-        updateSpots(state.days.find(day => day.appointments.includes(id)).id, -1); // Get the appointment ID link to the day id.
+        if (newInterview) {
+          updateSpots(state.days.find(day => day.appointments.includes(id)).id, -1); // Get the appointment ID link to the day id.
+        }
       })
-
   };
 
   function cancelInterview(id) {
