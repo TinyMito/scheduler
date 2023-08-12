@@ -43,7 +43,7 @@ export default function useApplicationData() {
       .then(() => {
         // If success, set state with new data
         setState({...state, appointments});
-        updateSpots(id, +1);
+        updateSpots(state.days.find(day => day.appointments.includes(id)).id, -1); // Get the appointment ID link to the day id.
       })
 
   };
@@ -64,15 +64,21 @@ export default function useApplicationData() {
       .then(() => {
         // If success, set state with new data
         setState({...state, appointments});
-        updateSpots(id, -1);
+        updateSpots(state.days.find(day => day.appointments.includes(id)).id, +1); // Get the appointment ID link to the day id.
       })
   };
 
-  function updateSpots(id, change = 0) {
-    console.log("SPOT ID: ", id);
-    console.log("CHANGE: ", change);
-    console.log("STATE DAYS: ", state.days);
-  }
+  function updateSpots(id, num = 0) {
+    setState(prev => { // Get current object
+      const newDays = prev.days.map(day => { // Map the array in days object
+        if (day.id === id) { // if the day id match the request id
+          return {...day, spots: day.spots + num}; // Take the mapped array "...day" and update the spots with the new num value
+        }
+        return day; // Return the day object for newDays
+      });
+      return {...prev, days: newDays}; // Update the days object into state
+    });
+  };
 
   return {
     state,
