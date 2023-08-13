@@ -2,6 +2,7 @@ import React from "react";
 import InterviewerListItem from "./InterviewerListItem";
 import "./InterviewerList.scss";
 
+// INTERVIEWER LIST Component
 export default function InterviewerList(props) {
   return (
     <section className="interviewers">

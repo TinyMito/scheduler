@@ -30,8 +30,6 @@ export default function useVisualMode(initial) {
 
     setHistory(history); // Update the history array
   }
-
-  // console.log("Mode =>", mode, history);
  
   return { mode, transition, back }; // return mode and functions
 }

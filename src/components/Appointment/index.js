@@ -9,7 +9,7 @@ import Show from "./Show";
 import Status from "./Status";
 import useVisualMode from "hooks/useVisualMode";
 
-// APPOINTMENT MODULE
+// APPOINTMENT Component
 export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
@@ -35,18 +35,23 @@ export default function Appointment(props) {
       interviewer
     };
 
+    // Switch to SAVING Mode
     transition(SAVING);
 
+    // Call bookInterview function
     props.bookInterview(props.id, interview, newInterview)
       .then(() => transition(SHOW))
       .catch(error => transition(ERROR_SAVE, true))
   };
 
+  // Switch to CANCEL Mode
   function cancel() {
     transition(CONFIRM);
   };
 
+  // Switch to CONFIRM Mode
   function confirm() {
+    // Render DELETING mode first and 2nd parameter true to replace previous mode in history
     transition(DELETING, true);
 
     props.cancelInterview(props.id)
@@ -54,6 +59,7 @@ export default function Appointment(props) {
       .catch(error => transition(ERROR_DELETE, true))
   }
 
+  // Switch to EDIT Mode
   function edit() {
     transition(EDIT);
   }
