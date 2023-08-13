@@ -48,9 +48,30 @@ Go to [localhost:8000](http://localhost:8000/) after starting the `npm start`.
 - eslint-plugin-react-hooks: ^1.7.0
 - cypress: ^9.7.0
 
-## Setup
+## Setup & API Server
 
-Install dependencies with `npm install`.
+1. Clone this `scheduler`.
+2. Install dependencies with `npm install`.
+
+3. Fork and clone the [scheduler-api](https://github.com/lighthouse-labs/scheduler-api) into a new directory (NOT within our current scheduler directory) on your host machine (not in our Vagrant machine).
+
+4. Follow the `README.md` in `scheduler-api`'s instructions. This will involve a few steps, including:
+
+- installing dependencies
+- creating the database
+- creating a `.env.development` file in the root directory
+- seeding the database
+- running the server
+
+5. The `.env.development` should contain the following:
+
+```js
+PGHOST=localhost
+PGUSER=development
+PGDATABASE=scheduler_development
+PGPASSWORD=development
+PGPORT=5432
+```
 
 ## Running Webpack Development Server
 
