@@ -1,5 +1,6 @@
 describe("Navigation", () => {
-  it("should visit root", () => {
+  beforeEach(() => {
+    cy.request("GET", "/api/debug/reset");
     cy.visit("/");
   });
 
